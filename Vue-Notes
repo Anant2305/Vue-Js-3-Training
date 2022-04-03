@@ -1,0 +1,295 @@
+Vue Js with Firebase
+
+IDE - Visual Studio Code
+
+Downloaded Extensions
+    -Live Sever
+    -Veture
+    -Material Design Icon
+
+Projects Created
+
+Introdction
+    vue-firbase
+
+Vue Cli
+    modal-projects
+
+You can use Vuejs 2 ways
+
+    using it via Vuejs website: -
+        <script src="https://unpkg.com/vue@3"></script>
+
+    Downloading it locally
+        npm init vue@latest
+
+To create a vuejs to work you need to create a vue app.js file to keep all the files together and add: -
+
+    const app = Vue.createApp()
+
+You will need to create a mount to be able to add to the website
+
+    app.mount("#app")
+
+Once this has been delcared you are now able to use this in any html page
+within a <div></div> tag.
+    
+    <div id="app" >
+    </div>
+
+Anything within this div you can use VueJS code.
+
+You are now able to add templates to the Vue.createApp() for it to be processedin the <div id="app"></div> element
+    
+    const app = Vue.createApp({
+        //data, function
+        template: '<h2>I am the template<h2>'
+    })
+
+Adding data that is accessible to the webpage
+    
+    data(){
+        return {
+            title: 'The Final Empire',
+            author: 'Brandon Snaderson',
+            age: 45,
+        }
+    }
+
+within the createApp() object you can add data that can be used in the webpage
+    <p>{{ title }} - {{ author }} - {{ age }}</p>
+
+
+DIRECTIVES
+
+These are Vejs function that will respond to a users action
+
+Like a button click:-
+
+There are 2 ways to create a button response
+
+1 - On the webpage
+    <button v-on:click='age++'>increase age by 1</button>
+    <button v-on:click='age--'>decrease age by 1</button>
+
+    the v is to say this is a vue command
+    the on is the action
+    the click the the response when action is done
+    
+    Vuejs has made it simple to create this by changing v-on to @
+    so the above can now be
+
+         <button @click='age++'>increase age by 1</button>
+         <button @click='age--'>decrease age by 1</button>
+2 - With in the createApp()
+
+    methods: {
+        changeTitle() {
+            this.title = "New Title Name"
+        }
+    }
+
+    you can refer to this in the webpage as
+        <div @click="changeTitle">Change Book Title</div>
+
+    To make this dynamic you can pass a value to change the book to
+        <div @click="changeTitle2('OtherTitle')">Change Book Title</div>
+    
+    and in the method pass the value as a variable
+         methods: {
+           changeTitle() {
+            this.title = "New Title Name"
+           }
+         }
+
+
+Using an if statement
+
+You can use v-if to validate if something should be shown or not
+You need to set a value in the data to validate and then check in the website like so
+
+    <div v-if="showBooks"></div>
+
+You can also use this in a button by adding a method to toggle a value to show and hide a button
+    in app.js
+    data(){
+        return {
+            showBooks: true,
+            title: 'The Final Empire',
+            author: 'Brandon Snaderson',
+            age: 45,
+        }
+    },
+    methods: {
+        toggleShowBooks(){
+            this.showBooks = !this.showBooks //this will set showBooks toopposite to last clicked value.
+        },
+    
+    in HTML <div id='app'><div> area
+    <button @click="toggleShowBooks">
+        <span v-if="showBooks">Hide Books</span>
+        <span  v-else>Show Books</span>
+    </button>
+
+Another way to hide and show thing in vuejs is to use v-show
+     <div v-show="showBooks">SHOW US VALUE</div>
+
+The way v-if works it removes the whole block and will then inject it back in when to show, but v-show chnges the css to display:block and display:none.
+
+Depending on what you want to do v-if takes longer to switch on and off compared to v-show.
+Based on your needs you may want to think about which one to use.
+
+Other Mouse Events
+
+    <!-- Other Mouse Events -->
+    <div class="box" @mouseover="handleEvent($event, 5)">mouseover (enter</div>
+    <div class="box" @mouseleave="handleEvent">mouseleave</div>
+    <div class="box" @dblclick="handleEvent">double click</div>
+
+     handleEvent(e) {
+            console.log(e, e.type)
+        }
+    This will handle mouse specifc actions and return a list of events to vusjs for you to referto and handle.
+
+    You can pass is your own data but must make sure you also send over the event in the first value. ($event).
+
+    You can also delcare the mouse move to return back the position of the mouse int a div.
+
+    <div class="box" @mousemove="handleMouseMove">position - {{ x }} {{ y }}</div>
+    data(){
+        return {
+            x: 0,
+            y: 0
+        }
+    },
+    method: {
+        handleMouseMove(e){
+            this.x = e.offsetX,
+            this.y = e.offsetY
+        }
+    }
+
+Outputting Data
+
+Arrays
+
+WHen you declare an array in the data: -
+
+    data(){
+        return {
+            showBooks: true,
+            books: [
+                { title: 'name of the wind', author: 'patrick rothfuss' },
+                { title: 'the way of kings', author: 'Brandon Snaderson' },
+                { title: 'The Final Empire', author: 'Brandon Snaderson' }
+            ]
+        }
+    },
+
+You can loop through it by using a v-for loop 
+
+    <div v-if="showBooks">
+        <ul>
+            <li v-for="book in books">
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.author }}</p>
+            </li>
+        </ul>
+    </div>
+
+This will loop through the books as book and out put the values in title and author.
+
+Attribute Binding
+
+What if you want to create a dynamic data in a an attribute like href.
+
+To use this you need to bo a data binding by using v-bind: and waht to bind with.
+
+    in app.js createApp()
+    data(){
+        return {
+            url: "https://www.bbc.co.uk"
+        }
+    },
+
+    in Website
+    <a v-bind:href="url"> Best website ever</a>
+    or
+    <a :href="url"> Best website ever</a>
+
+Dynamic Classes
+
+You can change the class name based on a value in the data and using Attribute binding method you can
+use in the class adding a class in a data value is what you wnat it to be.
+
+    in app.js createApp() 
+     return {
+            url: "https://www.bbc.co.uk",
+            showBooks: true,
+            books: [
+                { title: 'name of the wind', author: 'patrick rothfuss', img: 'assets/NameOfWind.jpg', isFav: true },
+                { title: 'the way of kings', author: 'Brandon Snaderson', img: 'assets/WayOfKings.jpg', isFav: false },
+                { title: 'The Final Empire', author: 'Brandon Snaderson', img: 'assets/finalEmpire.jpg', isFav: true }
+            ]
+        }
+
+        in website
+        <li v-for="book in books" :class="{ fav: book.isFav}">
+
+Thei will add class fav if book.isFav is set to true.
+
+Computed Propertise
+
+This is where you can use the set of array data decalred in createApp(){ data} and filter out any items listed 
+under a value you want to filter by,
+
+You need to create a new section called computed in createApp()
+
+    in createApp() data array
+     data(){
+        return {
+            showBooks: true,
+            books: [
+                { title: 'name of the wind', author: 'patrick rothfuss', img: 'assets/NameOfWind.jpg', isFav: true },
+                { title: 'the way of kings', author: 'Brandon Snaderson', img: 'assets/WayOfKings.jpg', isFav: false },
+                { title: 'The Final Empire', author: 'Brandon Snaderson', img: 'assets/finalEmpire.jpg', isFav: true }
+
+            ]
+        }
+    },
+    computed: {
+        filteredBooks() {
+            return this.books.filter((book) =>  book.isFav)
+        }
+    }
+
+this will filter out any books with isFav as true and return it as anew array to use in website.
+
+    in website
+    div v-if="showBooks">
+        <ul>
+            <li v-for="book in filteredBooks" :class="{ fav: book.isFav}" @click="toggleIsFav(book)">
+                <img :src="book.img" :alt="book.title" >
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.author }}</p>
+            </li>
+        </ul>
+    </div>
+
+*************************************************************
+
+VUE Cli
+
+You can download vue Cli
+    npm install -g @vue/cli
+
+This will download all vue clie files needed to create a vue Project
+
+You can now create a new project in the command line:
+
+    vue create modal-project
+
+This will create a new projet called modal-project
+
+It will ask you to set it up using setting for your project.
+
