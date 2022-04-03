@@ -15,7 +15,9 @@ Introdction
 Vue Cli
     modal-projects
 
-You can use Vuejs 2 ways
+********************************************
+
+    You can use Vuejs 2 ways
 
     using it via Vuejs website: -
         <script src="https://unpkg.com/vue@3"></script>
@@ -293,3 +295,231 @@ This will create a new projet called modal-project
 
 It will ask you to set it up using setting for your project.
 
+The new project will create a budle of Files.
+    Node_Modules Folder
+    Public Folder
+    Src Folder
+        assets Folder
+        Components Folder
+        App.vue 
+        main.js 
+    Other files
+
+App.vue is where we write all the codes to appear in the main.js which will then
+appear in index.js. 
+
+The Vuejs is the main file where we add the createApp data, modules & computed information
+as we did in the vue-firbase Projects
+
+The vue js is seperated into 3 areas.
+
+    1 - templae - data added that will appear in the webpage 
+    2 - script - the place where we return data, methods & computed proceses for the
+        template to use
+    3 - Style - CSS we want to use for the webpage.
+
+Template References
+
+You can use references to a dom and handle it in the methods area. 
+    <template>
+        <input type="text" ref="name">
+        <button @click="handleClick">click me</button>
+    </template>
+
+    methods: {
+        handleClick() {
+          console.log(this.$refs.name)
+          this.$refs.name.classList.add('active')
+            this.$refs.name.focus()
+        }
+      }
+
+This will output anything in the input box and when button clicked will appear
+in the console log and amend the dom accordingly.
+
+Multiple Componenets
+
+In the Components folder you can create different files as long as you use a naming convention
+like Modal.vue. (Make sure you do not use a name already used by vue)
+
+Once you have this file created with a template, script and/or (style scoped) (scoped means styles only aplies to this component) 
+You need toimport this into App.vue file.
+
+    import Modal from './components/Modal.vue'
+
+You then need to add a componants are int eh export default array.
+
+    export default {
+        name: 'App',
+        components: {
+           Modal
+        },
+    }
+
+To make this appear in the website add it to the template as well.
+
+    <template>
+        <div>
+            <Modal />
+        </div>
+    </template>
+
+Make sure you use the correct name as used in import line.
+
+Props in vue
+
+Passing data between components using props 
+
+To add a prop you can pass a vlue in the template declaration of a component
+
+    App.vue 
+    <template>
+        <div>
+            <Modal header="sign up fo the Giveaway" text="Grab your Ninja Swag for Half Price"/>
+        </div>
+    </template>
+
+In the Modal.vue file you need to add it in the export default array.
+
+    Modal.vue
+    export default {
+        props: ['header', 'text']
+    }
+
+and now you can use it within the Modal.vue componant template.
+
+    Modal.vue
+    <template>
+        <div class="backdrop">
+            <div class="modal">
+                <h1>{{ header }}</h1>
+                <p>{{ text }}</p>
+            </div>
+        </div>
+    </template>
+
+You can also bind the values to make it look and read better .
+
+    App.vue
+    export default {
+        data() {
+            return {
+            title: "My First Vue App",
+            header: "sign up fo the Giveaway",
+            text: "Grab your Ninja Swag for Half Price"
+            }
+        },
+    
+    <template>
+        <div>
+            <Modal :header="header" :text="text"/>
+        </div>
+    </template>
+
+Emmiting Custom Events
+
+You can add an emit from a child component to the parent component by creating
+an emit event int he child component
+
+    Modal.vue
+    <template>
+        <div class="backdrop" @click.self="closeModal">
+            <div class="modal" :class="{ sale: theme === 'sale'}">
+                <h1>{{ header }}</h1>
+                <p>{{ text }}</p>
+            </div>
+        </div>
+    </template>
+
+    <script>
+
+    export default {
+        props: ['header', 'text', 'theme'],
+        methods: {
+            closeModal() {
+                this.$emit('close')
+            }
+        }
+    }
+    </script>
+
+    (notes @click.self means that the event only refers to that element and any
+    elemtns inside will have no effect.)
+
+In the parent component you need to listen out for the emmited value.
+
+    App.vue (Template area)
+    <div v-if="showModal" >
+        <Modal :header="header" :text="text" theme="sale" @close="toggleModal"/>
+    </div>
+
+the @close is the value set in $emit() from the child component
+
+This wil now run the method toggleModal in the app.vue file.
+
+Slots in vue
+
+This is an alternative to Props.
+
+To declare slots you need to put within the Modal tags the data you want to show.
+
+    App.vue (Template area)
+    <Modal theme="sale" @close="toggleModal">
+        <template v-slot:links>
+        <a href="#">Sign Up now</a>
+        <a href="#">More Info</a>
+        </template>
+
+        <h1>Ninja Giveaway!</h1>
+        <p>Grb Your Ninja Swah for HALF PRICE!</p>
+    </Modal>
+
+You can have named slots by using v-slots:name or without will fill any 
+area wih at <slot></slot> tags
+
+    Modal.vue (template area )
+    <slot></slot>
+    <div class='acions'>
+        <slot name="links"></slot>
+    </div>
+
+
+Teleport
+
+Teleport is when you want to pass a component and area in index.html outside 
+<div id="app"></div> area.
+
+To do this you need to convert the required objects 
+from <div></div> to <teleport></teleport>
+
+    in index,php
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <div class="modals"></div>
+
+    in App.vue 
+    <teleport to=".modals" v-if="showModal" >
+        <Modal theme="sale" @close="toggleModal">
+            <template v-slot:links>
+              <a href="#">Sign Up now</a>
+              <a href="#">More Info</a>
+            </template>
+  
+            <h1>Ninja Giveaway!</h1>
+            <p>Grb Your Ninja Swah for HALF PRICE!</p>
+        </Modal>
+      </teleport>
+
+      You will also need to update the css to add the styles to the new div. 
+      <style>
+        #app, .modals {
+          font-family: Avenir, Helvetica, Arial, sans-serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-align: center;
+          color: #2c3e50;
+          margin-top: 60px;
+        }
+        </style>
+
+you can add it ad an id as well. but must update css to #modals
