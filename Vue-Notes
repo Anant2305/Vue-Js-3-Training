@@ -17,6 +17,7 @@ Vue Cli
 
 Examples of uses 
     reaction-timer
+    web-forms
 
 ********************************************
 
@@ -283,7 +284,7 @@ this will filter out any books with isFav as true and return it as anew array to
 
 *************************************************************
 
-VUE Cli
+#################  VUE Cli   #################
 
 You can download vue Cli
     npm install -g @vue/cli
@@ -549,3 +550,99 @@ closed down.
     unmounted() {
         console.log("Unmounted component")
     }
+
+
+Two Way Binding
+
+You can use v-model in the template to bind to data the values entered by the users
+and because its 2 way eny entered data values can be passed to the template area
+
+<template>
+    <div>
+      <form>
+          <label>Email:</label>
+          <input type="email" required v-model='email'>
+    
+          <label>Password:</label>
+          <input type="password" required v-model='password'>
+    
+            <label>Role:</label>
+            <select v-model='role'>
+                <option value="developer">Web Developer</option>
+                <option value="designer">Web Desinger</option>
+            </select>
+    
+        <div class="terms">
+            <input type="checkbox" v-model="terms" required>
+            <label>Accept terms and conditions</label>
+        </div>
+    
+        <div>
+            <input type="checkbox" value="shaun" v-model='names'>
+            <label>Shaun</label>
+        </div>
+    
+        <div>
+            <input type="checkbox" value="yoshi" v-model='names'>
+            <label>Yoshi</label>
+        </div>
+    
+        <div>
+            <input type="checkbox" value="mario" v-model='names'>
+            <label>Mario</label>
+        </div>
+    
+      </form>
+    
+      <p>Email: {{ email }}</p>
+      <p>Password: {{ password }}</p>
+      <p>Role: {{ role }}</p>
+      <p>Terms Accepted {{ terms }}</p>
+      <p>Names {{ names }}</p>
+    
+    </div>
+    </template>
+
+        export default {
+            data() {
+                return {
+                    email: '',
+                    password: '',
+                    role: 'designer',
+                    terms: false,
+                    names: [],
+                }
+            }
+        }
+
+Each v-model can be assigned a value to be set when the page loads by setting 
+it up in the data object or it will be set when the user type or uses it.
+
+Checkbox are set up 2 ways 
+        1 as a Boolean
+        2 as an array
+
+see template and data.
+
+Keyboard Events
+
+In any html tag you can add a @key... to run a function in the methds.
+
+    <input type="text" v-model="tempSkill" @keyup.ctrl="addSkill">
+
+    methods: {
+        addSkill(e) {
+           if(e.key === ',' && this.tempSkill) {
+               if(!this.skills.includes(this.tempSkill)){
+                    this.skills.push(this.tempSkill)
+               }
+               this.tempSkill = ''
+           }
+        }
+    }
+
+The input has been set so when user presses ctrl and and other key in the Keyboard
+the addSkill is triggered and will check and process as needed.
+
+There are many keyboard function you can use and run a module.
+
