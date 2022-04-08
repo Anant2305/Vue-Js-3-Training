@@ -15,6 +15,9 @@ Introdction
 Vue Cli
     modal-projects
 
+Examples of uses 
+    reaction-timer
+
 ********************************************
 
     You can use Vuejs 2 ways
@@ -523,3 +526,26 @@ from <div></div> to <teleport></teleport>
         </style>
 
 you can add it ad an id as well. but must update css to #modals
+
+
+Hooks used in the export default {} 
+
+Mounted is a response when this component is loaded ou can run a seperate script
+    mounted() {
+        console.log('component mounted')
+        setTimeout(() => {
+            this.showBlock = true
+            console.log(this.delay)
+        }, this.delay)
+    },
+
+Updated will validate and run once the component has been updated
+    updated() {
+        console.log('component updated')
+    },
+
+Unmounted is where you can run a script/function whn the component has been
+closed down.
+    unmounted() {
+        console.log("Unmounted component")
+    }
