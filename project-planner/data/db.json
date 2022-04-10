@@ -1,0 +1,22 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Create New Homepage Banner",
+      "details": "Lorem ipum",
+      "complete": false
+    },
+    {
+      "id": 2,
+      "title": "Make Marketing Email",
+      "details": "Lorem ipum",
+      "complete": false
+    },
+    {
+      "title": "Make a new WebSite",
+      "details": "Hello WOrld",
+      "complete": true,
+      "id": 3
+    }
+  ]
+}

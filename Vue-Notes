@@ -15,11 +15,10 @@ Introdction
 Vue Cli
     modal-projects
 
-Examples of uses 
     reaction-timer (prop, emit)
     web-forms - (Foms set up and submission)
     ninja-jobs (Routing)
-
+    project-planner (Routing)
 ********************************************
 
     You can use Vuejs 2 ways
@@ -295,6 +294,19 @@ This will download all vue clie files needed to create a vue Project
 You can now create a new project in the command line:
 
     vue create modal-project
+
+When you press enter you will be given option to choose from based on what you
+require select options
+
+    Vue CLI v5.0.4
+    ? Please pick a preset: Manually select features
+    ? Check the features needed for your project: Babel, Router
+    ? Choose a version of Vue.js that you want to start the project with 3.x
+    ? Use history mode for router? (Requires proper server setup for index fallback 
+    in production) Yes
+    ? Where do you prefer placing config for Babel, ESLint, etc.? In dedicated confi
+    g files
+    ? Save this as a preset for future projects? No
 
 This will create a new projet called modal-project
 
@@ -858,6 +870,26 @@ router->index.vue
             component: Jobs
         }
     ]
+
+Using JSON Data 
+
+You can create an nternal DB by using a file to store json data.
+
+Create a new folder called data and a file called db.json
+
+You can load json-server to monitor this file to GET, POST, PUSH & DELETE data to.
+
+in Terminal for the project
+        npm install json-server.
+
+When this is called you can use it to commicate with the data file by telling
+the json-server to watch this file. 
+
+in Terminal for the project
+        json-server --watch data/db.json
+
+You can refer to this in you vue project.
+
 
 Fetch Data (Using db.js)
 
