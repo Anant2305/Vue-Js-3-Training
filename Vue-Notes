@@ -19,6 +19,10 @@ Vue Cli
     web-forms - (Foms set up and submission)
     ninja-jobs (Routing)
     project-planner (Routing)
+
+Composition API
+    dojo-blog 
+
 ********************************************
 
     You can use Vuejs 2 ways
@@ -962,4 +966,244 @@ JobDetails.vue (to get data for one of the ids to view)
                     .catch(err => console.log(err.message))
             }
         }
-This is now stored in 
+This is now stored in db.jsonfile. 
+
+***************** Composition API ******************
+
+In view now ou have an additions export default function called setup(){}.
+
+All the data, methods, Computed and hooks can now be created in the setup function.
+
+The benefit of using composition API over old way is that you are able to organise 
+you code better and reuse the code.
+
+Setup will always be ran first before Created and mounted.
+
+You can create the setup and return the value, but these values are not changable 
+initially.
+
+        <!-- <template>
+            <div class="home">
+            <p>My Name is {{ name }} and my age is {{ age }}</p>
+            <button @click="handleClick">click me</button>
+            </div>
+        </template>
+        
+        <script>
+        export default {
+            name: 'HomeView',
+            setup() {
+            console.log('setup')
+        
+            let name = 'mario'
+            let age = 30
+        
+            const handleClick = () => {
+                console.log('you clicked me')
+            }
+        
+            return { name, age, handleClick}
+            }
+        }
+        </script> -->
+
+In the setup you care able to create functions to use int he template, 
+but must be part of the returned values.
+
+To amend the template objects you need to use Vue's ref feature by importing it and
+creating a const to use it with.
+
+    <!-- <template>
+        <div class="home">
+        <p ref="p">My Name is {{ name }} and my age is {{ age }}</p>
+        <button @click="handleClick">click me</button>
+        </div>
+    </template>
+    
+    <script>
+    import { ref } from 'vue'
+    export default {
+        name: 'HomeView',
+        setup() {
+        console.log(this)
+    
+        const p = ref(null)
+    
+        let name = 'mario'
+        let age = 30
+    
+        const handleClick = () => {
+            console.log(p, p.value)
+            p.value.classList.add('test')
+            p.value.textContent = "hello, Ninjas"
+        }
+    
+        return { name, age, handleClick, p}
+        }
+    }
+    </script> -->
+
+Here the p ref will be assigned to the p tag and when you click the button will 
+add a class and change the text content.
+
+Because the set up is run before everything else and also the template you are not
+able to make this changes as they will be null as they have not been created.
+
+but works perfectly after page loaded.
+
+To make values in setup reactive and change as an when needed you can assign these as 
+ref()
+
+            <!-- <template>
+                <div class="home">
+                <p ref="p">My Name is {{ name }} and my age is {{ age }}</p>
+                <button @click="handleClick">click me</button>
+                <button @click="age++">Add 1 age</button>
+                <input type="text" v-model="name">
+                </div>
+            </template>
+            
+            <script>
+            import { ref } from 'vue'
+            export default {
+                name: 'HomeView',
+                setup() {
+                    const name = ref('mario')
+                    const age = ref(30)
+            
+                    const handleClick = () => {
+                        name.value = "luigi"
+                        age.value = 35
+                    }
+
+                return { name, age, handleClick }
+                }
+            }
+            </script> -->
+
+Here the values have changed to const which values can be changed and each are now set up as 
+ref().
+
+We have assigned ref anmes to a click button to increment age by one and
+an imput box to change the name value from the website directly.
+
+You will also notice that unlike before to access the value in template we don not need to
+use the full name as its not part of an array value returned and used.
+
+            i.e {{ name.value }} instead just use {{ name }}
+
+
+There is another way to amend data which is called reactive
+
+        <!-- <template>
+            <div class="home">
+            <h2>Refs</h2>
+            <p>{{ ninjaOne.name}} - {{ ninjaOne.age }}</p>
+            <button @click="updateNinjaOne">Update Ninja One</button>
+            <h2>Reactive</h2>
+            <p>{{ ninjaTwo.name}} - {{ ninjaTwo.age }}</p>
+            <button @click="updateNinjaTwo">Update Ninja Two</button>
+            </div>
+        </template>
+        
+        <script>
+        import { ref, reactive } from 'vue'
+        export default {
+            name: 'HomeView',
+            setup() {
+            
+            const ninjaOne = ref({ name: 'mario', age: 30 })
+            const ninjaTwo = reactive({ name: 'luigi', age: 35})
+                
+            const updateNinjaOne = () => {
+                ninjaOne.value.age = 40
+            }
+        
+            const updateNinjaTwo = () => {
+                ninjaTwo.age = 45
+            }
+        
+            return { ninjaOne, updateNinjaOne, ninjaTwo, updateNinjaTwo }
+            }
+        }
+        </script> -->
+
+Here we have introduced reative and how the imputs slightly differ between ref and reactive.
+The disadantages about reactive is that it is sometimes un reactive when used as
+a singe value i.e ninjaTwo = reactive('mario').
+
+You will not be able to update this value becasue when this go live to the website
+it becomes a primative value  and you will not able to use it.
+
+The course will only use Refs.
+
+We can also use computed(), watch, watchEffect, prop and life cycle hooks in the set up.
+
+each one has its own slight changes and can respond accordingly.
+
+the lifecycle hooks are named differently as below as an example
+
+        mounted becomes onMounted
+        unMounted becomes onUnMounted
+        updated becomes onUpdated
+
+All these are in the below example
+
+<!--
+<template>
+    <div class="home">
+      <h1>Home</h1>
+      <p>Search Term = {{ search }}</p>
+      <div v-for="name in matchingNames" :key="name">{{ name }}</div>
+      <PostList v-if="showPosts" :posts="posts" />
+      <button @click="showPosts = !showPosts">Toggle Posts</button>
+      <button @click="posts.pop()">Delete a post</button>
+    </div>
+  </template>
+  
+  <script>
+  import { computed, ref, watch, watchEffect } from 'vue'
+  import PostList from '../components/PostList.vue'
+  export default {
+    name: 'HomeView',
+    components: { PostList },
+    setup() {
+      /* 
+        ******* USING COMPUTED, WATCH & WATCHEFFECT *******
+      const search = ref('')
+      const names = ref(['mario', 'yoshi', 'luigi', 'toad', 'bowser', 'koppa', 'peach'])
+  
+      watch(search, () => {
+        console.log('watch function ran')
+      })
+  
+      watchEffect(() => {
+        console.log('watchEffect function ran', search.value)
+      })
+  
+      const matchingNames = computed(() => {
+        return names.value.filter((name) => name.includes(search.value))
+      })
+  
+      return { names, search, matchingNames }
+      */
+  
+        /* ********* USING PROPS ************ */
+        const posts = ref([
+          { title: 'Welcome to the Blog', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc venenatis mi sollicitudin, viverra nunc a, vulputate dolor. Aliquam euismod est id libero condimentum varius. Donec rutrum quam nisl, vitae suscipit urna viverra eget. Nam quis tellus libero. Donec dolor magna, volutpat vitae condimentum eget, fermentum in nunc. Aliquam lobortis porta cursus. Quisque facilisis arcu vel arcu interdum interdum. Interdum et malesuada fames ac ante ipsum primis in faucibus. ', id: 1 },
+          { title: 'Top CSS Tips', body: 'Lorem ipsum', id: 2 }
+        ])
+  
+        /* *************** USING LIFECYCLE HOOKS ************ */
+        const showPosts = ref(true)
+
+        onMounted(() => console.log('Component mounted'))
+        onUnmounted(() => console.log('component unmounted'))
+        onUpdated(() => console.log('component updated'))
+
+        return { posts, showPosts }
+
+
+  
+    }
+    */
