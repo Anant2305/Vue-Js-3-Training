@@ -1,5 +1,10 @@
 Vue Js with Firebase
 
+Course link - https://www.udemy.com/course/build-web-apps-with-vuejs-firebase
+
+Tutors Git hub - https://github.com/iamshaunjp/Vue-3-Firebase
+Installing Dependancies - https://github.com/iamshaunjp/Vue-3-Firebase/blob/Installing-Dependencies/README.md
+
 IDE - Visual Studio Code
 
 Downloaded Extensions
@@ -1207,3 +1212,30 @@ All these are in the below example
   
     }
     */
+ -->
+
+ You can move all the setup functiona and values into a folder called 
+ Composables or Compositions.
+
+ You can create a new folder composables or compositions
+
+ To use Router functionality you will need to.
+
+ Import { useRouter } from 'vue-router'
+
+ and to use this in setup() like below
+            const router = useRouter()
+            router.push({ name: 'Home'})
+
+You can still use the other function we learned earlier i hte setup area. 
+
+vue-router also had another useful function useRoute which is information about
+the page and the params set in the page.
+
+            import { useRoute } from 'vue-router'
+            const route = useRoute()
+            getPost(route.params.id)
+
+Here we are using the route to search for the id that has been passed to the page.
+
+

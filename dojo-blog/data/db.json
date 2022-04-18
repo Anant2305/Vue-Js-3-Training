@@ -1,0 +1,44 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "Welcome to the new Blog",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent semper tincidunt fringilla. Aliquam erat volutpat. Praesent nibh mauris, ultrices sit amet lacinia in, bibendum quis tellus. Cras et dolor ut elit sollicitudin consectetur quis in justo. Phasellus sed venenatis magna, nec eleifend metus. Ut ac est quis diam mollis dapibus. Cras venenatis rutrum ipsum quis pulvinar. Suspendisse interdum mauris ut turpis imperdiet iaculis. Mauris auctor libero nec suscipit lacinia. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam pulvinar diam ac diam posuere posuere. Fusce molestie, ipsum porttitor faucibus lobortis, purus mi pulvinar nibh, ac commodo purus turpis id nulla.",
+      "tags": [
+        "webdev",
+        "coding",
+        "news"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Top  CSS tips",
+      "body": "Sed sit amet quam vel quam ultricies auctor. Integer et nulla nunc. Fusce lorem elit, volutpat non diam ut, consequat facilisis elit. Suspendisse at nunc quis magna porta commodo. Vivamus cursus magna in lacus sagittis, nec volutpat nisi efficitur. Nullam sagittis molestie vulputate. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Mauris sem magna, semper in dolor id, aliquet pharetra nulla. Sed a dui metus. Vestibulum non ligula finibus, feugiat lorem eget, sagittis enim.",
+      "tags": [
+        "css",
+        "webdev",
+        "coding"
+      ]
+    },
+    {
+      "title": "Anant Chohan",
+      "body": "This Content was created to test if the form actually works",
+      "tags": [
+        "html",
+        "PHP",
+        "JS"
+      ],
+      "id": 3
+    },
+    {
+      "title": "Hello World",
+      "body": "This world is awesome",
+      "tags": [
+        "html",
+        "PHP",
+        "js"
+      ],
+      "id": 4
+    }
+  ]
+}

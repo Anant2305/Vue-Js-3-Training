@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h1>Home</h1>
     <!-- <p ref="p">My Name is {{ name }} and my age is {{ age }}</p>
     <button @click="handleClick">click me</button>
     <button @click="age++">Add 1 age</button>
@@ -14,18 +13,28 @@
     <!-- <input type="text" v-model="search">
     <p>Search Term = {{ search }}</p>
     <div v-for="name in matchingNames" :key="name">{{ name }}</div> -->
-    <PostList v-if="showPosts" :posts="posts" />
-    <button @click="showPosts = !showPosts">Toggle Posts</button>
-    <button @click="posts.pop()">Delete a post</button>
+    <div v-if="error">{{ error }}</div>
+    <div v-if="posts.length" class="layout">
+      <PostList :posts="posts" />
+      <TagCloud :posts="posts" />
+    </div>
+    <div v-else>Loading .... <Spinner /></div>
+    <!-- <button @click="showPosts = !showPosts">Toggle Posts</button>
+    <button @click="posts.pop()">Delete a post</button> -->
+    
   </div>
 </template>
 
 <script>
 import { computed, ref, watch, watchEffect } from 'vue'
 import PostList from '../components/PostList.vue'
+import getPosts from '../composables/getPosts'
+import Spinner from '../components/Spinner.vue'
+import TagCloud from '../components/TagCloud.vue'
+
 export default {
   name: 'HomeView',
-  components: { PostList },
+  components: { PostList, Spinner, TagCloud },
   setup() {
     // const p = ref(null)
     // const name = ref('mario')
@@ -72,17 +81,29 @@ export default {
     return { names, search, matchingNames }
     */
 
-      /* ********* USING PROPS ************ */
-      const posts = ref([
-        { title: 'Welcome to the Blog', body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc venenatis mi sollicitudin, viverra nunc a, vulputate dolor. Aliquam euismod est id libero condimentum varius. Donec rutrum quam nisl, vitae suscipit urna viverra eget. Nam quis tellus libero. Donec dolor magna, volutpat vitae condimentum eget, fermentum in nunc. Aliquam lobortis porta cursus. Quisque facilisis arcu vel arcu interdum interdum. Interdum et malesuada fames ac ante ipsum primis in faucibus. ', id: 1 },
-        { title: 'Top CSS Tips', body: 'Lorem ipsum', id: 2 }
-      ])
-
       /* *************** USING LIFECYCLE HOOKS ************ */
       const showPosts = ref(true)
 
-      return { posts, showPosts }
+      /* ******** USING COMPOSABLES OR COMPOSITIONS ************** */
+      const { posts, error, load } = getPosts()
+      
+      load()
+
+      return { posts, showPosts, error}
 
   }
 }
 </script>
+
+<style>
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+ .layout {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 20px;
+  }
+</style>
